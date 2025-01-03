@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Edit Work experience Details - OpportunityHub {% endblock %}
+{% block main_content %}
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Edit Work experience</h1>
+                        <p>Edit Work experience Details - OpportunityHub .</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'job seeker dashboard' %}">Dashboard</a></li>
+                        <li>Edit Work Experience</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Main Content Start -->
+    <div class="change-password section">
+        <div class="container">
+            <div class="alerts-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+
+                    {% include "candidates/candidate_menu.html" %}
+
+                    <!-- End Main Content -->
+                    <div class="col-lg-8">
+                        <div class="password-content">
+                            <h3>Edit Work Experience</h3>
+                            <p>Here you can edit work experience.</p>
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                            {{ form.errors }}
+                            </div>
+                            {% endif %}
+                            
+                
+                            <form method="post" action="{% url 'edit-work-experience' object.pk %}" enctype="multipart/form-data">
+                                <div class="row">
+                                    {{ form.media }}
+                                    {% for field in form %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                     </div>
+                                        {% for error in field.errors %}
+                                          <p style="color: red">{{ error }}</p>
+                                        {% endfor %}
+                                {% endfor %}
+
+                                    {% csrf_token %}
+                                    <div class="col-lg-12">
+                                        <div class="button">
+                                            <button class="btn">Save </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+
+    
+    
+ {% endblock %}

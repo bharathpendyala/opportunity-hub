@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ object.first_name}} {{ object.last_name }} - OpportunityHub{% endblock %}
+{% block main_content %}
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Resume</h1>
+                        <p>Don’t just find. Be found. Put your CV in front of great employers<br> 
+                        t helps you to increase your chances of finding a suitable job and let recruiters contact you about jobs that are not needed to pay for advertising.</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'all-employees' %}">All Job Seekers</a></li>
+                        <li>{{ object.first_name}} {{ object.last_name }}</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Blog Singel Area -->
+    <section class="section blog-single">
+        <div class="container">
+            <div class="row">
+                                <div class="resume ">
+        <div class="container">
+            <div class="resume-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+
+                    <!-- End Main Content -->
+                    <div class="col-lg-8 col-12">
+                        <div class="inner-content">
+                            <!-- Start Personal Top Content -->
+                            <div class="personal-top-content">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="name-head">
+                                            {% if object.profile_picture %}
+                                            <a class="mb-2" href="#"><img class="circle-54"
+                                                    src="{{ object.profile_picture.url}}" alt=""></a>
+                                            {% else %}
+                                                   <a class="mb-2" href="#"><img class="circle-54"
+                                                    src="{% static '/images/clients/default_profile.png' %}" alt=""></a>
+                                            {% endif %}
+                                            <h4>{{ object }}</h4>
+                                            <p>{{ object.occupation}}</p>
+                                            <ul class="social">
+                                            {% if object.facebook %}
+                                                <li><a target="_blank" href="{{ object.facebook }}"><i class="lni lni-facebook-original"></i></a></li>
+                                            {% endif %}
+                                                {% if object.linkedin %}
+                                                <li><a target="_blank" href="{{ object.linkedin }}"><i class="lni lni-linkedin-original"></i></a></li>
+                                                {% endif %}
+                                            {% if object.github %}
+                                                <li><a target="_blank" href="{{ object.github }}"><i class="lni lni-github"></i></a></li>
+                                            {% endif %}
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-12">
+                                        <div class="content-right">
+                                            <h5 class="title-main">Contact Info</h5>
+                                            <!-- Single List -->
+                                            <div class="single-list">
+                                                <h5 class="title">Location</h5>
+                                                <p>{{ object.city}} </p>
+                                            </div>
+                                            <!-- Single List -->
+                                            <!-- Single List -->
+                                            <div class="single-list">
+                                                <h5 class="title">E-mail</h5>
+                                                <p>{{ object.user}}</p>
+                                            </div>
+                                            {% if object.phone %}
+                                            <div class="single-list">
+                                               
+                                                <h5 class="title">Phone</h5>
+                                                <p>{{ object.phone_number}}</p>
+                                            </div>
+
+                                           {% endif %}
+                                            <div class="single-list">
+                                                <h5 class="title">Website</h5>
+                                                {% if object.website %}
+                                                <p><a target="_blank" href="{{ object.website }}">Link</a></p>
+                                                {% endif %}
+                                            </div>
+                                            {% if object.seniority %}
+                                            <div class="single-list">
+                                            
+                                                <h5 class="title">Seniority</h5>
+                                                <p>{{ object.seniority }}</p>
+                                            </div>
+
+                                               {% endif %}
+                                            {% if object.phone_number %}
+                                                <div class="single-list">
+
+                                                <h5 class="title">Phone</h5>
+                                                <p> Hidden </p>
+                                            </div>
+                                                          {% endif %}
+                                            <!-- Single List -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Personal Top Content -->
+                            <!-- Start Single Section -->
+                            <div class="single-section">
+                                <h4>About</h4>
+                                <p class="font-size-4 mb-8">{{ object.about|safe }}</p>
+
+                            </div>
+                            <!-- End Single Section -->
+                            <!-- Start Single Section -->
+                            <div class="single-section skill">
+                                <h4>Skills</h4>
+                                <ul class="list-unstyled d-flex align-items-center flex-wrap">
+                                    {%  for skill in object.skills.all %}
+                                    <li>
+                                        <a href="#">{{ skill }}</a>
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+
+                            <div class="single-section exprerience">
+                                <h4>Work Experience</h4>
+                                {% for experience in object.experience.all %}
+                                <div class="single-exp mb-30">
+                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
+                                        <div class="image">
+                                            {% if experience.image %}
+                                                <img width="80" height="80"  src="{{ experience.image }}"  alt="#">
+                                            {% else %}
+                                             <img width="80" height="80"  src="{% static 'images/resume/work.jpg' %}"  alt="#">
+                                            {% endif %}
+                                        </div>
+                                        <div class="w-100 mt-n2">
+                                            <h3 class="mb-0">
+                                                <h5>{{ experience.company}}</h5>
+                                            </h3>
+                                            <p>{{ experience.description|safe }}</p>
+                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
+                                                <p>{{ experience.start_date}} - {{ experience.end_date}}</p>
+{#                                                <a href="#" class="font-size-3 text-gray">#}
+{#                                                    <span class="mr-2" style="margin-top: -2px"><i#}
+{#                                                            class="lni lni-map-marker"></i></span>New York, USA</a>#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+
+                            <div class="single-section education">
+                                <h4>Education</h4>
+                                <!-- Single Edu -->
+                                {% for education in object.educations.all %}
+                                <div class="single-edu mb-30">
+                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
+                                        <div class="image">
+                                            {% if education.image %}
+                                                 <img width="80" height="80"  src="{{ education.image }}"  alt="#">
+                                            {% else %}
+                                            <img width="80" height="80" src="{% static '/images/resume/education.jpg' %}" alt="#">
+                                            {% endif %}
+                                        </div>
+                                        <div class="w-100 mt-n2">
+                                            <h3 class="mb-0">
+                                                <h5>{{ education.institution}}</h5>
+                                            </h3>
+                                            <p>{{  education.description|safe }}</p>
+                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
+                                                <p>{{ education.start_date}} - {{  education.end_date}}</p>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+
+                                       
+                        </div>
+                    </div>
+                {% include 'candidates/aside.html' %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- End Blog Singel Area -->
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} All Companies - OpportunityHub{% endblock %}
+{% block main_content %}
+
+        <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">All companies</h1>
+                        <p>Take a look at the top IT companies ...<br> 
+                           </p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li>Companies</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Start Job Category Area -->
+    <section class="job-category style2 section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title">
+                        <span class="wow fadeInDown" data-wow-delay=".2s">Companies</span>
+                        <h2 class="wow fadeInUp" data-wow-delay=".4s">Browse by Company</h2>
+                        <p class="wow fadeInUp" data-wow-delay=".6s">List of the largest software companies</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cat-head">
+                <div class="row">
+
+                    {% for company in object_list %}
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <a href="{% url 'company-details' company.pk %}" class="single-cat wow" data-wow-delay=".4s">
+                            <div class="top-side">
+          
+        {% if company.image %}
+          <img src="{{ company.image.url }}" alt="{{ company.name }} Image">
+            {% else %}
+            <img src="{% static 'images/jobs/category-2.jpg' %}" alt="{{ company.name }} Image">
+        {% endif %}
+
+                            </div>
+
+                            <div class="bottom-side">
+
+                                <span class="available-job2">Jobs</span><span class="available-job">{{ company.user.job_set.all|length }}</span>
+                                <h3>{{ company.name }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+
+{% if is_paginated %}
+    <div class="pagination left pagination-md-center">
+        <ul class="pagination-list">
+            {% if page_obj.has_previous %}
+
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="lni lni-arrow-left"></i></a></li>
+                            {% else %}
+                <li><span><i class="lni lni-arrow-left"></i></span></li>
+      
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li {% if page_obj.number == num %}class="active"{% endif %}><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.paginator.num_pages }}"><i class="lni lni-arrow-right"></i></a></li>
+            {% else %}
+                <li><span><i class="lni lni-arrow-right"></i></span></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /End Job Category Area -->
+{% endblock %}

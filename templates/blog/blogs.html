@@ -1,0 +1,124 @@
+{% extends 'base.html' %}      
+{% load static %}
+{% block title %} Blogs - OpportunityHub{% endblock %}
+{% block main_content %}
+
+
+    <!-- End Header Area -->
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">News and blogs / Django Rest Framework</h1>
+                        <p>First steps in Django Rest Framework<br> </p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li>Blogs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Blog Singel Area -->
+    <section class="section latest-news-area blog-list">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-12">
+                    <div id="blog-list" class="row">
+
+
+                    </div>
+                    <!-- Pagination -->
+                    <div class="pagination center">
+                        <ul class="pagination-list">
+                            <li><a href="#"><i class="lni lni-chevron-left"></i></a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#"><i class="lni lni-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+                    <!--/ End Pagination -->
+                </div>
+                <aside class="col-lg-4 col-md-5 col-12">
+                    <div class="sidebar">
+                    
+                                  {% if 'blog.add_blogpost' in perms %}
+                                <div class="sidebar-widget">
+                                <div class="inner">
+                            <div class="row m-n2 button">
+                                        <div class=" col-lg-12  ">
+                                            <a href="{% url 'blog-create' %}" class="d-block btn"><i class="fa fa-heart-o mr-1"></i> Add Blog Post</a>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+
+                    {% endif %}
+                        <div class="widget search-widget">
+                            <h5 class="widget-title"><span>Search ...</span></h5>
+                            <form action="#">
+                                <input type="text" placeholder="Search Here...">
+                                <button type="submit"><i class="lni lni-search-alt"></i></button>
+                            </form>
+                        </div>
+                        <div class="widget popular-feeds">
+                            <h5 class="widget-title"><span>Popular Feeds</span></h5>
+
+                        </div>
+                        <div class="widget categories-widget">
+                            <h5 class="widget-title"><span>Categories</span></h5>
+{#                            <ul class="custom">#}
+{#                                <li>#}
+{#                                    <a href="#">Announcement<span>26</span></a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#">Indeed Events<span>30</span></a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#">Tips & Tricks<span>71</span></a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#">Experiences<span>56</span></a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#">Case Studies<span>15</span></a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#">Labor Market News<span>12</span></a>#}
+{#                                </li>#}
+{#                                <li>#}
+{#                                    <a href="#">HR Best Practices<span>17</span></a>#}
+{#                                </li>#}
+{#                            </ul>#}
+                        </div>
+                        <div class="widget popular-tag-widget">
+                            <h5 class="widget-title"><span>Popular Tags</span></h5>
+{#                            <div class="tags">#}
+{#                                <a href="#">Jobpress</a>#}
+{#                                <a href="#">Design</a>#}
+{#                                <a href="#">HR</a>#}
+{#                                <a href="#">Recruiter</a>#}
+{#                                <a href="#">Interview</a>#}
+{#                                <a href="#">Employee</a>#}
+{#                                <a href="#">Labor</a>#}
+{#                                <a href="#">Salary</a>#}
+{#                                <a href="#">Consult</a>#}
+{#                                <a href="#">Business</a>#}
+{#                                <a href="#">Candidates</a>#}
+{#                            </div>#}
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+     <script src="{% static 'js/blog/blog.js' %}"></script>
+  {% endblock %}

@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} {{ object.name}} - OpportunityHub {% endblock %}
+{% block main_content %}
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Company Details</h1>
+                        <p>Business plan draws on a wide range of knowledge from different business<br> disciplines.
+                            Business draws on a wide range of different business .</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'all_company' %}">Companies</a></li>
+                        <li>{{ object.name}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Blog Singel Area -->
+    <section class="section blog-single">
+        <div class="container">
+            <div class="row">
+                                <div class="resume ">
+        <div class="container">
+            <div class="resume-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+
+                    <!-- End Main Content -->
+                    <div class="col-lg-8 col-12">
+                        <div class="inner-content">
+                            <!-- Start Personal Top Content -->
+                            <div class="personal-top-content">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="name-head">
+                                            {% if object.image %}
+                                            <a class="mb-2" href="#"><img class="circle-54"
+                                                    src="{{ object.image.url}}" alt=""></a>
+                                            {% else %}
+                                                   <a class="mb-2" href="#"><img class="circle-54"
+                                                    src="{% static '/images/clients/default_profile.png' %}" alt=""></a>
+                                            {% endif %}
+                                            <h4><a class="name" href="#">{{ object.name}}</a></h4>
+
+                                            <ul class="social">
+                                                {% if object.facebook_url %}
+                                                <li><a href="{{ object.facebook_url }}"><i class="lni lni-facebook-original"></i></a></li>
+                                                {% endif %}
+                                                {% if object.linkedin_url %}
+                                                <li><a target="_blank" href="{{ object.linkedin_url }}"><i class="lni lni-linkedin-original"></i></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-12">
+                                        <div class="content-right">
+                                            <h5 class="title-main">Contact Info</h5>
+                                            <div class="single-list">
+                                                <h5 class="title">Location</h5>
+                                                <p>{{ object.location }}</p>
+                                            </div>
+                                            <div class="single-list">
+                                                <h5 class="title">E-mail</h5>
+                                                <p>{{ object.email }}</p>
+                                            </div>
+                                            {% if object.phone %}
+                                            <div class="single-list">
+                                                <h5 class="title">Phone</h5>
+                                                <p>{{ object.phone }}</p>
+                                            </div>
+                                            {% endif %}
+                                            <div class="single-list">
+                                                <h5 class="title">Address</h5>
+                                                <p>{{ object.address }}</p>
+                                            </div>
+                                            <div class="single-list">
+                                                <h5 class="title">Employees</h5>
+                                                <p>{{ object.employees }}</p>
+                                            </div>
+                                            <div class="single-list">
+                                                <h5 class="title">Foundation Year</h5>
+                                                <p>{{ object.foundation_year }}</p>
+                                            </div>
+                                        {% if object.website_url %}
+                                            <div class="single-list">
+                                                <h5 class="title">Website Linked</h5>
+                                                <p><a target="_blank" href="{{ object.website_url }}"> Link </a></p>
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Personal Top Content -->
+                            <!-- Start Single Section -->
+                            <div class="single-section">
+                                <h4>About</h4>
+                                <p class="font-size-4 mb-8">
+                                    {{ object.description|safe }}
+                                </p>
+                            </div>
+                            <!-- End Single Section -->
+                            <!-- Start Single Section -->
+                            <div class="single-section skill">
+                                <h4>Technologies</h4>
+                                <ul class="list-unstyled d-flex align-items-center flex-wrap">
+                                {{ object.skills_set }}
+                                    {% for tech in object.skills.all %}
+                                    <li>
+                                        <a href="#">{{ tech }}</a>
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                             <div class="single-section">
+                              <h4>Open positions </h4>
+                                     <div class="job-items">
+                            {% for job in jobs_published %}
+                            <div class="manage-content" style="margin-top: 16px">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-6 col-md-6 col-12">
+                                        <div class="title-img" style="display: flex">
+                                            <div class="can-img">
+                                                {% if job.job_image %}
+                                                <img style="height: 60px; width: 60px;" src="{{ job.job_image.url }}" alt="#">
+                                                    {% else %}
+                                                    <img style="height: 60px; width: 60px;" src="{{ object.image.url }}" alt="#">
+                                                {% endif %}
+                                            </div>
+                                            <h6  style="padding-left: 10px">{{ job.title }}</h6>
+                                                <span style="text-align: right">{{ job.category}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <p><span class="time"><i class="lni lni-coin"></i> {{ job.salary }}</span></p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <p class="location"><i class="lni lni-map-marker"></i>{{job.location}}</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <div class="button">
+                                            <a href="{% url 'job_details' job.pk %}" class="btn">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                        </div>
+                             </div>
+                                       
+                        </div>
+                    </div>
+
+                    <aside class="col-lg-4 col-md-12 col-12">
+                         
+                    <div class="sidebar">
+                         <div class="sidebar-widget">
+                             <div class="inner">
+                                <div class="row m-n2 button">
+                                    <div class=" col-lg-12  ">
+                                        <form method="post" action="{% url 'subscribe_to_company' object.pk %}">
+                                            {% csrf_token %}
+                                            <button style="width: 100%" class="d-block btn" type="submit">{% if not is_subscribed %}Subscribe for company{% else %} Unsubscribe for company{% endif %}</button>
+                                        </form>
+                                    </div>
+                                </div>
+                             </div>
+                         </div>
+                         <div class="widget popular-feeds">
+                            <div class="inner">
+{#                                <h6 class="title">Job Location</h6>#}
+                                <div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q={{ object.location }}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.com">123movies old site</a><style>.mapouter{position:relative;text-align:right;height:300px;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:300px;width:100%;}</style><a href="https://maps-google.github.io/embed-google-map/">embed google map</a></div></div>
+                            </div>
+                        </div>
+                    
+
+                        <div class="widget popular-feeds">
+                            <h5 class="widget-title"><span>Latest Blog Posts with DRF</span></h5>
+                            <div class="popular-feed-loop">
+                            </div>
+                        </div>
+
+                        <div class="widget popular-tag-widget">
+                            <h5 class="widget-title"><span>Popular Tags</span></h5>
+                            <div class="tags">
+                                <a href="#">ToDo</a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+
+            </div>
+        </div>
+    </section>
+        <script src="{% static '/js/blog/popular_feeds.js' %}"></script>
+{% endblock %}

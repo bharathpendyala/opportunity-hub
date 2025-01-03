@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Dashboard - OpportunityHub {% endblock %}
+{% block main_content %}
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+
+                        <h1 class="page-title">Company Dashboard</h1>
+                        <p>Editing and updating a company profile allows you to keep information current and accurate,<br> 
+                             while also allowing jobs seekers and potential clients to find you.</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li>Company Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Main Content Start -->
+    <div class="bookmarked section">
+    
+        <div class="container">
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="alerts-inner">
+
+
+                <div class="row">
+                    <!-- Start Main Content -->
+                    {% include 'company/company-menu.html' %}
+
+                    <!-- End Main Content -->
+
+
+                    <div class="col-lg-8 col-12">
+
+
+            <div class="cat-head job-category">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <a href="#" class="single-cat wow fadeInUp" data-wow-delay=".2s">
+                            <div class="icon">
+                                <i >{{ all_favourite }}</i>
+                            </div>
+                            <h3>All Jobs<br> Added To Favourite</h3>
+                        </a>
+                    </div>
+
+
+                    <div class="col-md-6 col-12">
+                        <a href="{% url 'jobs-applicants' %}" class="single-cat wow fadeInUp" data-wow-delay=".8s">
+                            <div class="icon">
+                                <i>{{ all_applicant }}</i>
+                            </div>
+                            <h3>All Jobs <br> Candidates</h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="resume ">
+        <div class="container">
+            <div class="resume-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+
+                    <!-- End Main Content -->
+                    <div class="col-lg-12 col-12">
+                        <div class="inner-content">
+                            <!-- Start Personal Top Content -->
+                            <div class="personal-top-content">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="name-head">
+                                            {% if user.company.image %}
+                                            <a class="mb-2" href="#"><img class="circle-54"
+                                                    src="{{ user.company.image.url}}" alt=""></a>
+                                            {% endif %} 
+                                            <h4 class="name"> {{ user.company.name}} </h4>
+                                    
+                                            <ul class="social">
+                                                {% if user.company.facebook_url %}
+                                                <li><a href="{{ user.company.facebook_url }}"><i class="lni lni-facebook-original"></i></a></li>
+                                                {% endif %}
+                                                {% if user.company.linkedin_url %}
+                                                <li><a target="_blank" href="{{ user.company.linkedin_url }}"><i class="lni lni-linkedin-original"></i></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-12">
+                                        <div class="content-right">
+                                            <h5 class="title-main">Contact Info</h5>
+                                            <div class="single-list">
+                                                <h5 class="title">Location</h5>
+                                                <p>{{ user.company.location }}</p>
+                                            </div>
+                                            <div class="single-list">
+                                                <h5 class="title">E-mail</h5>
+                                                <p>{{ user.company.email }}</p>
+                                            </div>
+                                        {% if user.company.phone %}
+                                            <div class="single-list">
+                                                <h5 class="title">Phone</h5>
+                                                <p>{{ user.company.phone }}</p>
+                                            </div>
+                                        {% endif %}
+                                            <div class="single-list">
+                                                <h5 class="title">Address</h5>
+                                                <p>{{ user.company.address }}</p>
+                                            </div>
+                                            <div class="single-list">
+                                                <h5 class="title">Employees</h5>
+                                                <p>{{ user.company.employees }}</p>
+                                            </div>
+                                            <div class="single-list">
+                                                <h5 class="title">Foundation Year</h5>
+                                                <p>{{ user.company.foundation_year }}</p>
+                                            </div>
+                                        {% if user.company.website_url %}
+                                            <div class="single-list">
+                                                <h5 class="title">Website</h5>
+                                            
+                                                <p><a target="_blank" href="{{  user.company.website_url }}"> Link </a></p>
+                                                
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Personal Top Content -->
+                            <!-- Start Single Section -->
+                            <div class="single-section">
+                                <h4>About</h4>
+                                <p class="font-size-4 mb-8">{{ user.company.description|safe }}</p>
+
+                            </div>
+                            <!-- End Single Section -->
+                            <!-- Start Single Section -->
+                            <div class="single-section skill">
+                                <h4>Technologies</h4>
+                                <ul class="list-unstyled d-flex align-items-center flex-wrap">
+
+                                    {% for skill in user.company.skills.all %}
+                                    <li>
+                                        <a href="#">{{ skill }}</a>
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+
+
+            </div>
+
+
+                        <!-- Pagination -->
+
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+    
+
+    {%  endblock %}

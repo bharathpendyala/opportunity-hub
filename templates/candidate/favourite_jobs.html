@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %} Favourites Jobs - OpportunityHub {% endblock %}
+{% load static %}
+{% block main_content %}
+    
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Bookmarked Jobs</h1>
+                        <p>Find a job you love, and you  will never have to work a day in your life.<br> 
+                           Good Luck !</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'index' %}">Dashboard</a></li>
+                        <li>Bookmarked Jobs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Main Content Start -->
+    <div class="bookmarked section">
+        <div class="container">
+            <div class="alerts-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+{% include 'candidates/candidate_menu.html' %}
+                    <!-- End Main Content -->
+                    <div class="col-lg-8 col-12">
+                        <div class="job-items">
+                            {% for obj in object_list %}
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="title-img">
+                                            <div class="can-img">
+                                                {% if obj.job.job_image %}
+                                                <img src="{{ obj.job.job_image.url }}" alt="#">
+                                                    {% else %}
+                                                    <img src="{% static 'images/default/default.jpg' %}" alt="#">
+                                                {% endif %}
+                                            </div>
+                                            <h3>{{ obj.job.title }}<span>{{ obj.job.category}}</span></h3>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <p><span class="time"><i class="lni lni-coin"></i> {{ obj.job.salary }}</span></p>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p class="location"><i class="lni lni-map-marker"></i>{{obj.job.location}}</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <div class="button">
+                                            <a href="{% url 'job_details' obj.job.pk %}" class="btn">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Browse all Jobs -  OpportunityHub {% endblock %}
+{% block main_content %}
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Job offers</h1>
+                        <p>Job offers from leading companies <br>
+                           New Company jobs added daily...</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li>Job offers</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Blog Singel Area -->
+    <section class="section blog-single">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+
+                          {% for job in job_list %}
+                        <div class="single-job">
+{#                        <div class="feature-job-list">Featured</div>#}
+                            <div class="job-image-list">
+            {% if job.user.company.image %}
+                                <img src="{{ job.user.company.image.url }}" alt="#">
+                                {% else %}
+                 <img src="{% static 'images/jobs/category-2.jpg' %}" alt="{{ company.name }} Image">
+                                {% endif %}
+{#                               <p> <a href="{% url 'company-details' job.user.company.pk %}">{{ job.user.company.name }}</a></p>#}
+
+                            </div>
+                            <div class="job-content">
+                                <h4 style="padding-right: 0px"><a href="{% url 'job_details' job.pk %}">{{ job.title }}</a></h4>
+                                <div class="truncate-overflow-jobs">
+                                <p>{{ job.description|safe|default_if_none:"nothing" }}</p>
+                                </div>
+                                <ul>
+                                    <li><i class="lni lni-euro"></i> {{ job.salary }} </li>
+                                    <li><i class="lni lni-map-marker"></i> {{ job.location }}</li>
+                                    <li><i class="lni lni-calendar"></i> {{ job.seniority }}</li>
+                                    <li><i class="lni lni-timer"></i> {{ job.job_type }}</li>
+
+        
+
+                                </ul>
+
+                                <ul>
+                                                            {% for skill in job.needed_skills.all %}
+                                                <li><span>{{ skill.name }}</span></li>
+                                        {% endfor %}
+                            </ul>
+                            </div>
+                            <div class="job-button2">
+{#                                <ul>#}
+{#                                    <li><a href="{% url 'apply_for_job' job.pk %}">Apply</a></li>#}
+                                    <a class="company-link" href="{% url 'company-details' job.user.company.pk %}"><span>Company : {{ job.user.company.name }}</span></a></li>
+{#                                </ul>#}
+                            </div>
+                        </div>
+                    {% endfor %}
+{% if is_paginated %}
+    <div class="pagination left pagination-md-center">
+        <ul class="pagination-list">
+            {% if page_obj.has_previous %}
+
+                <li><a href="?page={{ page_obj.previous_page_number }}"><i class="lni lni-arrow-left"></i></a></li>
+                            {% else %}
+                <li><span><i class="lni lni-arrow-left"></i></span></li>
+      
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li {% if page_obj.number == num %}class="active"{% endif %}><a href="?page={{ num }}">{{ num }}</a></li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.paginator.num_pages }}"><i class="lni lni-arrow-right"></i></a></li>
+            {% else %}
+                <li><span><i class="lni lni-arrow-right"></i></span></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
+                </div>
+                <aside class="col-lg-4 col-md-12 col-12">
+                    <div class="sidebar">
+                            <div class="widget search-widget">
+{#                            <h5 class="widget-title"><span>Search This Site</span></h5>#}
+                             <form method="get" action="{% url 'all-jobs' %}">
+                                <input type="text" name="q" placeholder="Search by job title">
+                                <button type="submit"><i class="lni lni-search-alt"></i></button>
+                            </form>
+                             </div>
+
+                                 <div class="widget search-widget">
+
+                               <form method="GET" action="{% url 'all-jobs' %}">
+                                    <select style="max-width: 70%" class="form-select form-select-sm"  name="seniority">
+                                    <option value="">All</option>
+                                    {% for seniority in seniorities %}
+                                        <option value="{{ seniority.name }}">{{ seniority.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                               <div>
+                                    <button  type="submit">Filter</button>
+                               </div>
+                                 </form>
+                             </div>
+
+                        {% include "jobs/category_slide.html" %}
+
+
+                        <div class="widget popular-feeds">
+                            <h5 class="widget-title"><span>Latest Blog Posts with DRF</span></h5>
+                            <div class="popular-feed-loop">
+                            </div>
+                        </div>
+
+                        <div class="widget popular-tag-widget">
+                            <h5 class="widget-title"><span>Popular Tags</span></h5>
+                            <div class="tags">
+                                <a href="#">ToDo</a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+    <script src="{% static '/js/blog/popular_feeds.js' %}"></script>
+{% endblock %}

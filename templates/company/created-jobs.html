@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %} Created Jobs - OpportunityHub {% endblock %}
+{% block main_content %}
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Created Jobs</h1>
+                        <p>Manage Your Job Offers on OpportunityHub <br> </p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'company-dashboard' %}">Dashboard</a></li>
+                        <li> Created Jobs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Main Content Start -->
+    <div class="bookmarked section">
+        <div class="container">
+            <div class="alerts-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+{% include 'company/company-menu.html' %}
+                    <!-- End Main Content -->
+                    <div class="col-lg-8 col-12">
+                        <div class="job-items">
+                            {% for jobs in object_list %}
+                            <div class="manage-content">
+                                <div class="row align-items-center justify-content-center">
+                                    <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="title-img">
+                                            <div class="can-img">
+
+                                                {% if jobs.job_image %}
+
+                                                <img src="{{ jobs.job_image.url }}" alt="#">
+                                                    {% elif user.company.image %}
+                                                    <img src="{{ user.company.image.url }}" alt="#">
+                                                   
+                                                {% endif %}
+                                            </div>
+                                            <h3>{{ jobs.title }}<span>{{ jobs.category}}</span></h3>
+                                        </div>
+                                    </div>
+                                                                    <div class="col-lg-3 col-md-3 col-12">
+                                        <p class="location"><i class="lni lni-map-marker"></i>{{jobs.location}}</p>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+                                        <div class="button">
+                                                       <a style="background-color: #2042e314; color:red" href="{% url 'delete job' jobs.pk %}" class="btn">Delete</a>
+                                            </div>
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-12">
+
+                                        <div class="button">
+                                            <a href="{% url 'job_details' jobs.pk %}" class="btn">Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+   
+                        </div>
+                        <!-- Pagination -->
+                        <div class="pagination left pagination-md-center">
+
+                        </div>
+                        <!-- End Pagination -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block title %} {{ object.title }} {{ object.category }} - OpportunityHub{% endblock %}
+{% block main_content %}
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">Job Details</h1>
+                        <p>Your job description needs to be simple and clear.<br>
+                        This will increase the likelihood that job seekers will read it from top to bottom...</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'all-jobs' %}">Jobs</a></li>
+                        <li>{{ object.title}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Job Details -->
+    <div class="job-details section">
+        <div class="container">
+            <div class="row mb-n5">
+                <!-- Job List Details Start -->
+                <div class="col-lg-8 col-12">
+                    <div class="job-details-inner">
+                        <div class="job-details-head row mx-0">
+                            <div class="company-logo col-auto">
+                                {% if object.user.company.image %}
+                                <a href="#" style="border-radius: 4px; overflow: hidden;"><img class="company-logo-big" src="{{ object.user.company.image.url}}"
+                                        alt="Company Logo"></a>
+                                {% endif %}
+                            </div>
+{#                            <div class="salary-type col-auto order-sm-3">#}
+{#                                <span class="salary-range">{{ job.salary}}</span>#}
+{#                                <span class="badge badge-success">{{ job.job_type}}</span>#}
+{#                            </div>#}
+                            <div class="content col">
+                                <h5 class="title">{{ job.title}}</h5>
+                                <ul class="meta">
+                                    <li><strong class="text-primary"><a href="{% url 'company-details' object.user.pk %}">{{ object.user.company.name }}</a></strong>
+                                    </li>
+                                    <li><i class="lni lni-map-marker"></i> {{ object.user.company.location}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="job-details-body">
+                            <h6 class="mb-3">Job Description</h6>
+                            <p>{{ object.description|safe }}</p>
+                            <h6 class="mb-3 mt-4">Responsibilities</h6>
+                            {{ object.responsibilities|safe }}
+                            <h6 class="mb-3 mt-4">Benefits</h6>
+                            {{object.benefits|safe }}
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Job List Details End -->
+                <!-- Job Sidebar Wrap Start -->
+                <div class="col-lg-4 col-12">
+                    <div class="job-details-sidebar">
+                        <!-- Sidebar (Apply Buttons) Start -->
+                    
+                    {% if not user.is_authenticated  %}
+                                <div class="sidebar-widget">
+                                <div class="inner">
+                            <div class="row m-n2 button">
+                                        <div class="col-xl-auto col-lg-12 col-sm-auto col-12 p-2">
+                                            <a href="{% url 'login' %}?next={% url 'job_details' object.pk %}" class="d-block btn"><i class="fa fa-heart-o mr-1"></i> Save Job</a>
+                                        </div>
+                                        <div class="col-xl-auto col-lg-12 col-sm-auto col-12 p-2">
+
+                                            <a href="{% url 'login' %}?next={% url 'job_details' object.pk %}" class="d-block btn"><i class="fa fa-heart-o mr-1"></i>Apply</a>
+
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        
+                    {% endif %}
+
+                        {% if user.is_authenticated and user.pk == object.user.id %}
+                            <div class="sidebar-widget">
+                                <div class="inner">
+
+                                    <div class="row m-n2 button">
+                                        <div class="col-xl-auto col-lg-12 col-sm-auto col-12 p-2">
+                                            <a href="{% url 'edit_job' object.pk  %}" class="d-block btn"><i class="fa fa-heart-o mr-1"></i>Edit Job</a>
+                                        </div>
+                                        <div class="col-xl-auto col-lg-12 col-sm-auto col-12 p-2">
+                                            <a href="{% url 'applicant_list' object.pk %}" class="d-block btn btn-alt">Candidates <span class="btn" style="display: inline; padding: 5px 10px">{{ object.applicants.all.count }}</span></a>
+                                        </div>
+
+                                     </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if user.is_authenticated and  user.role == "candidate" %}
+                                <div class="sidebar-widget">
+                                <div class="inner">
+
+                                    <div class="row m-n2 button">
+                                        <div class="col-xl-auto col-lg-12 col-sm-auto col-12 p-2">
+                                            {% if already_in_favourite %}
+                                            <form method="post" action="{% url 'remove_From_fav' object.pk %}">
+                                            <button class="d-block btn"><i class="fa fa-heart-o mr-1"></i>Remove From Fav</button>
+                                            {% csrf_token %}
+                                            </form>
+                                                {% else %}
+{#                                                <a href="{% url 'apply_for_job' pk=job.pk %}" class="d-block btn"><i class="fa fa-heart-o mr-1"></i> Save</a>#}
+                                             <form method="post" action="{% url 'add-to-favourite' object.pk %}">
+                                            {% csrf_token %}
+                                            <button class="d-block btn"><i class="fa fa-heart-o mr-1"></i> Save Job</button>
+                                             </form>
+                                                {% endif %}
+                                        </div>
+
+                                        <div class="col-xl-auto col-lg-12 col-sm-auto col-12 p-2">
+                                            {% if not already_apply %}
+                                        <form method="post" action="{% url 'apply_for_job' object.pk %}">
+                                            {% csrf_token %}
+                                            <button class="d-block btn"><i class="fa fa-heart-o mr-1"></i>Apply</button>
+                                        </form>
+                                                {% else %}
+                                                            <a href="#"><span class="d-block btn btn-alt">{{ status.first.get_status }}</span></a>
+                                        {% endif %}
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        <div class="sidebar-widget">
+                            <div class="inner">
+                                <h6 class="title">Job Overview</h6>
+                                <ul class="job-overview list-unstyled">
+                                    <li><strong>Published on:</strong> {{ object.created_at}}</li>
+                                    {% if object.vacancy %}
+                                    <li><strong>Vacancy:</strong> {{ object.vacancy }}</li>
+                                    {% endif %}
+                                    <li><strong>Employment Status:</strong> {{ object.job_type }}</li>
+                                    <li><strong>Experience:</strong> {{ object.seniority}}</li>
+                                    <li><strong>Job Location:</strong> {{ object.location}}</li>
+                                {% if object.salary  %}
+                                    <li><strong>Salary:</strong> {{ object.salary }}</li>
+                                {% endif %}
+                                    <li><strong>Application Deadline:</strong> {{ object.deadline}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Sidebar (Job Overview) End -->
+
+                        <!-- Sidebar (Job Location) Start -->
+                        <div class="sidebar-widget">
+                            <div class="inner">
+                                <h6 class="title">Job Location</h6>
+                                <div class="mapouter"><div class="gmap_canvas"><iframe width="100%" height="300" id="gmap_canvas" src="https://maps.google.com/maps?q={{ object.location }}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><a href="https://123movies-to.com">123movies old site</a><style>.mapouter{position:relative;text-align:right;height:300px;width:100%;}.gmap_canvas {overflow:hidden;background:none!important;height:300px;width:100%;}</style><a href="https://maps-google.github.io/embed-google-map/">embed google map</a></div></div>
+                            </div>
+                        </div>
+                        <!-- Sidebar (Job Location) End -->
+                    </div>
+                </div>
+                <!-- Job Sidebar Wrap End -->
+
+            </div>
+        </div>
+    </div>
+    <!-- End Job Details -->
+
+    {% endblock %}

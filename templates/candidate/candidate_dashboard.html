@@ -1,0 +1,264 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Dashboard - OpportunityHub {% endblock %}
+{% block main_content %}
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+
+                        <h1 class="page-title">Profile Dashboard</h1>
+                        <p>Editing and updating a profile profile allows you to keep information current and accurate,<br> 
+                             while also allowing companies to find you.</p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li>Dashboard</li>
+                    
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Main Content Start -->
+    <div class="bookmarked section">
+        <div class="container">
+                    {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            <div class="alerts-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+                    {% include 'candidates/candidate_menu.html' %}
+
+                    <!-- End Main Content -->
+
+
+                    <div class="col-lg-8 col-12">
+
+
+            <div class="cat-head job-category">
+                <div class="row">
+                    <div class="col-md-4 col-12">
+                        <a href="{% url 'jobs-apply' %}" class="single-cat wow fadeInUp" data-wow-delay=".8s">
+                            <div class="icon">
+                                <i>{{ all_jobs_accepted }}</i>
+                            </div>
+                            <h3>Approved <br> applications</h3>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <a href="{% url 'jobs-apply' %}" class="single-cat wow fadeInUp" data-wow-delay=".2s">
+                            <div class="icon">
+                                <i >{{ all_jobs_pending }}</i>
+                            </div>
+                            <h3>Pending<br> applications</h3>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 col-12">
+                        <a href="{% url 'jobs-apply' %}" class="single-cat wow fadeInUp" data-wow-delay=".2s">
+                            <div class="icon">
+                                <i >{{ all_jobs_rejected }}</i>
+                            </div>
+                            <h3>Rejected<br> applications</h3>
+                        </a>
+                    </div>
+
+                </div>
+            
+
+
+
+                <div class="resume ">
+        <div class="container">
+            <div class="resume-inner">
+                <div class="row">
+                    <!-- Start Main Content -->
+
+                    <!-- End Main Content -->
+                    <div class="col-lg-12 col-12">
+                        <div class="inner-content">
+                            <!-- Start Personal Top Content -->
+                            <div class="personal-top-content">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-12">
+                                        <div class="name-head">
+                                            {% if user.candidate.profile_picture %}
+                                            <a class="mb-2" href="#"><img class="circle-54"
+                                                    src="{{ user.candidate.profile_picture.url}}" alt=""></a>
+                                            {% endif %} 
+                                            <h4><a class="name" href="#">{{ user.candidate.first_name}} {{ user.candidate.last_name }}</a></h4>
+                                            <p><a class="deg" href="#">{{ user.candidate.occupation}}</a></p>
+                                            <ul class="social">
+                                                {% if user.candidate.facebook %}
+                                                <li><a target="_blank" href="{{ user.candidate.facebook }}"><i class="lni lni-facebook-original"></i></a></li>
+                                                {% endif %}
+
+                                                {% if user.candidate.linkedin %}
+                                                <li><a target="_blank" href="{{ user.candidate.linkedin }}"><i class="lni lni-linkedin-original"></i></a></li>
+                                                {% endif %}
+
+                                                {% if user.candidate.github %}
+                                                <li><a target="_blank" href="{{ user.candidate.github }}"><i class="lni lni-github"></i></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-12">
+                                        <div class="content-right">
+                                            <h5 class="title-main">Profile Information</h5>
+                                            <!-- Single List -->
+                                            <div class="single-list">
+                                                <h5 class="title">Location</h5>
+                                                <p>{{ request.user.candidate.city }}</p>
+                                            </div>
+                                            <!-- Single List -->
+                                            <!-- Single List -->
+                                            <div class="single-list">
+                                                <h5 class="title">E-mail</h5>
+                                                <p> {{request.user}} </p>
+                                            </div>
+                                            <!-- Single List -->
+                                            <!-- Single List -->
+                                            <div class="single-list">
+                                                <h5 class="title">Phone</h5>
+                                                <p>{{request.user.candidate.phone_number}}</p>
+                                            </div>
+                                            <!-- Single List -->
+                                            <!-- Single List -->
+                                            <div class="single-list">
+                                                <h5 class="title">Website</h5>
+                                                <p><a target="_blank" href="{{ user.candidate.website  }}"> Link </a></p>
+                                            </div>
+                                            <!-- Single List -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Personal Top Content -->
+                            <!-- Start Single Section -->
+                            <div class="single-section">
+                                <h4>About</h4>
+                                <p class="font-size-4 mb-8">
+                                    {{ request.user.candidate.about|safe }}
+                                </p>
+
+                            </div>
+                            <!-- End Single Section -->
+                            <!-- Start Single Section -->
+                            <div class="single-section skill">
+                                <h4>Skills</h4>
+                                <ul class="list-unstyled d-flex align-items-center flex-wrap">
+                                    {%  for skill in request.user.candidate.skills.all %}
+                                      <li>
+                                        <a href="#">{{ skill}}</a>
+                                    </li>
+                                    {% endfor %}
+
+
+                                </ul>
+                            </div>
+                            <!-- End Single Section -->
+                            <!-- Start Single Section -->
+                            <div class="single-section exprerience">
+                              <a style="float: right" class="education-link" href="{% url 'add-work-experience' user.candidate.pk %}">Add Work Experience </a>
+                                <h4>Work Experience</h4>
+
+                                {% for experience in user.candidate.experience.all %}
+       
+                                    
+
+                                <div class="single-exp mb-30">
+                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
+                                        <div class="image">
+                                            {% if experience.image %}
+                                                <img src="{{ experience.image}}" alt="#" width="80" height="80">
+                                            {% else %}
+                                            <img  width="80" height="80" src="{% static '/images/resume/work.jpg' %}" alt="#">
+                                            {% endif %}
+                                        </div>
+                                        <div class="w-100 mt-n2">
+                                            <h3 class="mb-0">
+                                                <a href="#"> {{ experience.company }} </a>
+                                            </h3>
+
+                                            <p>{{ experience.description|safe }}</p>
+                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
+                                                <p>{{ experience.start_date}} - {{ experience.end_date}}</p>
+                                                <div>
+                                                <a  href="{% url 'edit-work-experience' experience.pk %}" class="education-edit font-size-3">Edit</a>
+                                                 <a  style="color: red; margin-left: 20px" href="{% url 'delete work experience' experience.pk %}" class="education-edit font-size-3">Delete</a>
+                                                </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+
+                            </div>
+
+                            <div class="single-section education">
+                     <a style="float: right" class="education-link" href="{% url 'add-education' user.candidate.pk %}">Add Education</a>
+                                <h4>Education</h4>
+
+                                {%  for education in request.user.candidate.educations.all %}
+                                <div class="single-edu mb-30">
+                                    <div class="d-flex align-items-center pr-11 mb-9 flex-wrap flex-sm-nowrap">
+                                        <div class="image" >
+                                            {% if education.image %}
+                                            <img src="{{ education.image}}" alt="#" width="80" height="80">
+                                            {% else %}
+                                            <img src="{% static 'images/resume/education.jpg' %}" alt="#" width="80" height="80">
+                                            {% endif %}
+                                        </div>
+                                        <div class="w-100 mt-n2">
+                                            <h3 class="mb-0">
+                                                <a href="#">{{ education.institution}} </a>
+                                            </h3>
+                                            <p>{{ education.description|safe }}<p>
+                                            <div class="d-flex align-items-center justify-content-md-between flex-wrap">
+                                                <p>{{ education.start_date}}- {{ education.end_date}}</p>
+                                                <div>
+                                                <a  href="{% url 'edit-education' education.pk %}" class="education-edit font-size-3">Edit</a>
+                                                <a  style="color: red; margin-left: 20px" href="{% url 'delete education' education.pk %}" class="education-edit font-size-3">Delete</a>
+                                                </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                            <!-- End Single Section -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Content end -->
+    
+</div>
+    {%  endblock %}

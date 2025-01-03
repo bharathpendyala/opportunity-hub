@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Blogs - OpportunityHub{% endblock %}
+{% block main_content %}
+
+    <!-- End Header Area -->
+
+    <!-- Start Breadcrumbs -->
+    <div class="breadcrumbs overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumbs-content">
+                        <h1 class="page-title">News and blogs / Django Rest Framework</h1>
+                        <p>First steps in Django Rest Framework<br> </p>
+                    </div>
+                    <ul class="breadcrumb-nav">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li>Blog Grid Sidebar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Breadcrumbs -->
+
+    <!-- Start Blog Singel Area -->
+    <section class="section latest-news-area blog-list">
+        <div class="container">
+            <div class="row">
+
+                       <div class="col-lg-8">
+                        <div class="password-content">
+                            <h3>Add New Blog Post</h3>
+                            <p>Here you can add new blog post.</p>
+
+
+
+                            <form id="blog-post-form">
+                                <div class="row">
+
+                    <div class="form-group">
+
+                    <span><label for="id_title" class="required">Title:</label></span>
+
+                    <input type="text" name="title" value="" maxlength="200" class="form-control" required="" id="id_title">
+                     </div>
+
+
+
+                    <div class="form-group">
+
+                    <span><label for="id_description" class="required">Description:</label></span>
+
+                    <textarea name="description" cols="40" rows="10" class="form-control" required="" id="id_description"></textarea>
+                     </div>
+
+
+                    <div class="form-group">
+
+                        <label class="required" for="id_image_url_1">Main Image:</label>
+
+                    <input type="text" name="image_url_1" value="" maxlength="200" class="form-control" id="id_image_url_1">
+                     </div>
+
+                    <div class="form-group">
+
+                        <label for="id_image_url_2">Image :</label>
+
+                    <input type="text" name="image_url_2" value="" maxlength="200" class="form-control" id="id_image_url_2">
+                     </div>
+                                    
+                                                        <div class="form-group">
+
+                        <label for="id_image_url_3">Image :</label>
+
+                    <input type="text" name="image_url_3" value="" maxlength="200" class="form-control" id="id_image_url_3">
+                     </div>
+
+                                </div>
+                                
+                                                    <div class="form-group">
+
+                    <span><label for="id_more_info" class="required">More Info:</label></span>
+
+                    <textarea name="more_info" cols="40" rows="10" class="form-control" required="" id="id_more_info"></textarea>
+                     </div>
+
+                                        <div class="button">
+                                            <button class="btn">Save</button>
+                                        </div>
+{% csrf_token %}
+                            </form>
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('blog-post-form');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevent default form submission
+
+        const title = document.getElementById('id_title').value;
+        const description = document.getElementById('id_description').value;
+        const image_url_1 = document.getElementById('id_image_url_1').value;
+        const image_url_2 = document.getElementById('id_image_url_2').value;
+        const image_url_3 = document.getElementById('id_image_url_3').value;
+        const more_info = document.getElementById('id_more_info').value;
+        // Get other form field values as needed
+
+
+        const data = {
+            title: title,
+            description: description,
+            image_url_1: image_url_1,
+            image_url_2: image_url_2,
+            image_url_3: image_url_3,
+            more_info: more_info,
+            // Include other fields as needed
+        };
+         const csrfToken = "{{ csrf_token }}";
+
+                 const headers = {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        };
+        // Send POST request to API
+        fetch('/api/blog/', {
+            method: 'POST',
+         headers: headers,
+            body: JSON.stringify(data)
+
+        })
+        .then(response => {
+
+            if (response.ok) {
+                // Blog post created successfully
+                // Redirect or show success message
+                window.location.href = '{% url 'blog-list' %}';
+            } else {
+
+            }
+        })
+        .catch(error => {
+            console.error('Error creating blog post:', error);
+        });
+    });
+});
+                            </script>
+
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+    </section>
+
+  {% endblock %}

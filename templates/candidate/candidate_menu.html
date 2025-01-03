@@ -1,0 +1,20 @@
+                {% load notification_tags %}
+                    <div class="col-lg-4 col-12">
+                        <div class="dashbord-sidebar">
+                            <ul>
+                                <li class="heading">Manage Account</li>
+                                <li><a class="{% if request.resolver_match.url_name == 'job seeker dashboard' %}active{% endif %}"  href="{% url 'job seeker dashboard' %}"><i class="lni lni-clipboard"></i> Dashboard</a></li>
+                                <li><a class="{% if request.resolver_match.url_name == 'edit-profile' %}active{% endif %}"  href="{% url 'edit-profile' %}"><i class="lni lni-clipboard"></i> Edit Profile </a></li>
+                                <li><a class="{% if request.resolver_match.url_name == 'favourite_jobs' %}active{% endif %}"  href="{% url 'favourite_jobs' %}"><i class="lni lni-clipboard"></i> Bookmarked Jobs <span class="notifi">{{ user.favoritejob_set.all|length}}</span></a></li>
+                                <li><a class="{% if request.resolver_match.url_name == 'jobs-apply' %}active{% endif %}" href="{% url 'jobs-apply' %}"><i class="lni lni-alarm"></i>Job Applications <span class="notifi">{{ user.candidate.get_user_all_applicant}}</span></a></li>
+               
+                                 {% if 'main.add_newsletter' in perms %}
+                                <li><a class="{% if request.resolver_match.url_name == 'newsletter' %}active{% endif %}" href="{% url 'newsletter' %}"><i class="lni lni-alarm"></i>Send Newsletter </a></li>
+                               {% endif %}
+                                <li><a  href="{% url 'job seeker notifications' %}"><i class="lni lni-alarm"></i> Notifications <span class="notifi">{{ request.user|unread_notifications  }}</span></a></li>
+                                <li><a class="{% if request.resolver_match.url_name == 'change-password' %}active{% endif %}" href="{% url 'change-password' %}"><i class="lni lni-lock"></i> Change Password</a></li>
+                                <li><a class="{% if request.resolver_match.url_name == 'delete_profile' %}active{% endif %}" style="color:red" href="{% url 'delete_profile' %}"><i class="lni lni-lock"></i> Delete Profile</a></li>
+                                <li><a href="{% url 'sing-out' %}"><i class="lni lni-upload"></i> Sign Out</a></li>
+                            </ul>
+                        </div>
+                    </div>
